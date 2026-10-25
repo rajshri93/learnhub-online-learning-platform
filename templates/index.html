@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}LearnHub — Learn skills that move you forward{% endblock %}
+{% block content %}
+<section class="hero">
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <div class="eyebrow"><span class="eyebrow-dot"></span> LEARN SOMETHING THAT MATTERS</div>
+      <h1>Your next skill<br>starts <span>right here.</span></h1>
+      <p class="hero-description">Practical courses, thoughtful instructors, and a learning path that fits your life. Build skills one lesson at a time.</p>
+      <div class="hero-actions"><a class="btn" href="#courses">Explore courses <span>↗</span></a><a class="text-link" href="{{ url_for('register') }}">Create a free account <span>→</span></a></div>
+      <div class="hero-proof"><div class="avatar-stack"><span>R</span><span>M</span><span>A</span><span>+</span></div><div><strong>Made for curious minds</strong><small>Learn at your own pace</small></div></div>
+    </div>
+    <div class="hero-art">
+      <div class="hero-orbit orbit-one"></div><div class="hero-orbit orbit-two"></div>
+      <div class="hero-card hero-card-main">
+        <div class="hero-card-top"><span class="mini-label">YOUR LEARNING SPACE</span><span class="live-dot"></span></div>
+        <div class="hero-illustration"><div class="book book-back"></div><div class="book book-front"><span>learn.</span><i></i><i></i><i></i></div><div class="spark spark-one">✳</div><div class="spark spark-two">✦</div></div>
+        <div class="hero-card-bottom"><div><strong>Curiosity looks good on you.</strong><small>One lesson can change your direction.</small></div><span class="round-arrow">↗</span></div>
+      </div>
+      <div class="float-chip chip-top"><span class="chip-icon">✦</span><div><strong>Keep growing</strong><small>Your pace, your path</small></div></div>
+      <div class="float-chip chip-bottom"><span class="chip-icon chip-green">✓</span><div><strong>Progress saved</strong><small>Every step counts</small></div></div>
+    </div>
+  </div>
+</section>
+<section class="stats-strip"><div class="container stats-grid"><div><strong>Learn</strong><span>at your own pace</span></div><div><strong>Build</strong><span>real-world skills</span></div><div><strong>Track</strong><span>your progress</span></div><div><strong>Grow</strong><span>with every lesson</span></div></div></section>
+<section class="section courses-section" id="courses">
+  <div class="container">
+    <div class="section-heading"><div><div class="eyebrow">THE COURSE LIBRARY</div><h2>Find your next <span>“aha!”</span></h2><p>Start with a new interest or level up a skill you already have.</p></div><span class="course-count">{{ courses|length }} courses to explore</span></div>
+    <form class="filter-bar" method="get" action="{{ url_for('index') }}">
+      <label class="search-box"><span>⌕</span><input type="search" name="q" value="{{ q }}" placeholder="Search courses, topics, instructors..." aria-label="Search courses"></label>
+      <select name="category" aria-label="Filter by category"><option value="">All categories</option>{% for cat in categories %}<option value="{{ cat }}" {% if selected_category == cat %}selected{% endif %}>{{ cat }}</option>{% endfor %}</select>
+      <button class="btn btn-filter" type="submit">Find courses <span>→</span></button>
+    </form>
+    {% if courses %}
+    <div class="course-grid">
+      {% for course in courses %}
+      <article class="course-card">
+        <a class="course-image" href="{{ url_for('course_detail', slug=course.slug) }}">
+          {% if course.image_url %}<img src="{{ course.image_url }}" alt="" loading="lazy">{% else %}<div class="image-placeholder">✳</div>{% endif %}
+          {% if course.featured %}<span class="image-badge">✦ Featured</span>{% endif %}
+          <span class="image-arrow">↗</span>
+        </a>
+        <div class="course-body">
+          <div class="course-meta"><span>{{ course.category }}</span><span>{{ course.level }}</span></div>
+          <h3><a href="{{ url_for('course_detail', slug=course.slug) }}">{{ course.title }}</a></h3>
+          <p>{{ course.description }}</p>
+          <div class="course-bottom"><div class="instructor-avatar">{{ course.instructor[0] }}</div><div class="instructor-info"><strong>{{ course.instructor }}</strong><small>Course instructor</small></div><span class="course-duration">◷ {{ course.duration }}</span></div>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+    {% else %}
+      <div class="empty-state"><span>⌕</span><h3>No courses found</h3><p>Try another search term or clear the category filter.</p><a class="text-link" href="{{ url_for('index') }}">Show all courses →</a></div>
+    {% endif %}
+  </div>
+</section>
+<section class="cta-section"><div class="container cta-box"><div><div class="eyebrow">YOUR JOURNEY STARTS WITH ONE STEP</div><h2>Make room for your<br>next big idea.</h2><p>Create an account to enroll in courses and keep track of your learning.</p><a class="btn btn-light" href="{{ url_for('register') }}">Start learning <span>↗</span></a></div><div class="cta-decoration"><span>learn</span><i>✳</i><b>more.</b></div></div></section>
+{% endblock %}

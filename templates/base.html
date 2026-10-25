@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="LearnHub — practical courses for your next step.">
+  <title>{% block title %}LearnHub{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav container">
+      <a class="brand" href="{{ url_for('index') }}"><span class="brand-mark">L</span> learn<span>hub</span></a>
+      <button class="menu-toggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+      <div class="nav-links">
+        <a href="{{ url_for('index') }}#courses">Explore courses</a>
+        {% if current_user %}
+          <a href="{{ url_for('dashboard') }}">My learning</a>
+          {% if current_user.role == 'admin' %}<a href="{{ url_for('admin') }}">Admin</a>{% endif %}
+          <span class="nav-user">Hi, {{ current_user.name.split()[0] }}</span>
+          <form method="post" action="{{ url_for('logout') }}" class="inline-form"><button class="nav-login" type="submit">Log out</button></form>
+        {% else %}
+          <a href="{{ url_for('login') }}">Log in</a>
+          <a class="btn btn-small" href="{{ url_for('register') }}">Get started <span>↗</span></a>
+        {% endif %}
+      </div>
+    </nav>
+  </header>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div class="flash-wrap container">
+        {% for category, message in messages %}<div class="flash flash-{{ category }}">{{ message }}</div>{% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+  <main>{% block content %}{% endblock %}</main>
+  <footer class="footer">
+    <div class="container footer-inner">
+      <a class="brand brand-footer" href="{{ url_for('index') }}"><span class="brand-mark">L</span> learn<span>hub</span></a>
+      <p>Small steps. Real skills. New possibilities.</p>
+      <span>© 2026 LearnHub · Student project</span>
+    </div>
+  </footer>
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

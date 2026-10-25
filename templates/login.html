@@ -1,0 +1,5 @@
+{% extends "base.html" %}
+{% block title %}Log in — LearnHub{% endblock %}
+{% block content %}
+<section class="auth-section"><div class="auth-card"><div class="auth-mark">L</div><div class="eyebrow">WELCOME BACK</div><h1>Pick up where<br>you <span>left off.</span></h1><p class="muted">Sign in to continue your learning journey.</p><form method="post" class="auth-form"><label>Email address<input type="email" name="email" placeholder="you@example.com" required autocomplete="email"></label><label>Password<input type="password" name="password" placeholder="Your password" required autocomplete="current-password"></label><button class="btn btn-full" type="submit">Log in <span>→</span></button></form><p class="auth-switch">New to LearnHub? <a href="{{ url_for('register') }}">Create an account</a></p></div></section>
+{% endblock %}
